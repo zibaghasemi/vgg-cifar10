@@ -3,16 +3,20 @@ import math
 from models.slim.datasets import dataset_factory
 from models.slim.preprocessing import preprocessing_factory
 
-import vgg_cifar10
+#import vgg_cifar10
+#import vgg_cifar10_vgg9
+#import vgg_cifar10_vgg13
+import vgg_cifar10_vgg16
+
 
 slim = tf.contrib.slim
 
 EXPERIMENT_NAME = 'VGG11B_pretrain'
-BATCH_SIZE = 512
-CHECKPOINT_DIR = '/mnt/data1/vgg_results/' + EXPERIMENT_NAME + '/train'
+BATCH_SIZE = 256
+CHECKPOINT_DIR = '/home/ziba/WVU/tfResults/vgg_cifar10_results/Structures/VGG16/' + EXPERIMENT_NAME + '/train'
 EVAL_DIR = CHECKPOINT_DIR[:-5] + 'test'
-DATA_DIR = '/mnt/data1/cifar'
-EVAL_DEVICE = '/gpu:2'
+DATA_DIR = '/home/ziba/DataSets/cifar10'
+EVAL_DEVICE = '/cpu:0'
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -42,7 +46,7 @@ with tf.Graph().as_default() as g:
             num_threads=2,
             capacity=5 * BATCH_SIZE)
 
-        logits, end_points = vgg_cifar10.inference(images)
+        logits, end_points = vgg_cifar10_vgg16.inference(images)
 
         predictions = tf.argmax(logits, 1)
 
